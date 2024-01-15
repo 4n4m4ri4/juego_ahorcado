@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ahorcado</title>
+<link href="css/styles.css" rel="stylesheet" />
+
+
+<style>
+ @font-face {
+    font-family: 'mifuente';
+    src: url('Blacksword.otf');
+ }
+
+</style>
+
+</head>
+<body>
+
+    <h3 id="mensaje" class="titulo">Adivina la siguiente frase</h3>
+    
+    <div class="divPrimer">
+    <p id="puntuacion" class="puntuacion">Puntuación : <span id="puntos">100</span></p>
+    <div id="frase_a_mostrar" style="margin:10px;"></div>
+    <div class="middle">
+        <button id="adivinar" class="botones">ADIVINAR FRASE</button>
+        <button id="desvelar" class="botones">DESVELAR LETRA</button>
+    </div>
+    </div>
+     
+     
+     <div class="victoria" id="victoria" >
+     
+     
+     </div>
+     
+
+
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery_color.js"></script>
+    <script>
+  
+    	let frases_a_adivinar = ["Nadie encuentra su camino sin haberse perdido varias veces","Siempre parece imposible hasta que se hace","La vida empieza cada cinco minutos"];
+    	let contador = 0;
+    	let frase_a_adivinar="";
+    	let frase_a_mostrar = "";
+        let puntuacionTotal=100;
+        let cont =0;
+
+        let reg_exp_letras = /[a-zñáéíóú]/i;//elemento que vale para comprobar que un valor, sean solo letras
+        let reg_exp_vocales = /[aeiouáéíóú]/i;//consonantes
+
+       
+        
+
+        function preparar_frase(){
+            frase_a_adivinar = frases_a_adivinar[cont];
+            cont++;
+            frase_a_mostrar = "";
+            //los string en javascript se pueden tratar como arrays de caracteres
+            for(i in frase_a_adivinar){
+                if(frase_a_adivinar[i] != " "){
+                    frase_a_mostrar += "_";
+                }else{
+                    frase_a_mostrar += " ";
+                }
+            }//end for
+            $("#frase_a_mostrar").html(frase_a_mostrar);
+            console.log("adivinar: " + frase_a_adivinar);
+        }//end preparar_frase
+        
+
+        $("#adivinar").click(function(){
+            let introducido = prompt("introduce la frase:");
+            if( introducido.toUpperCase() == frase_a_adivinar.toUpperCase() ){
+                contador++;
+                if(contador == 3){
+                    alert("ya has adivinado todas, felicidades     " + puntuacion);
+                    mostrar_victoria();
+                }else{
+                    alert("felicidades adivinaste la frase numero: " + contador);
+                    preparar_frase();
+                }
+            }else{
+                alert("lo siento, fallaste");
+                puntuacionTotal = puntuacionTotal -20;
+                mostrar_puntuacion();
+            }
+        });
+
+        $("#desvelar").click(function(){
+            let letra = prompt("introduce una letra").toUpperCase();
+            let desvelada = false;
+            
+            if( ! reg_exp_letras.test(letra) ){
+                alert("no has introducido una letra");
+                return;
+            }
+
+            let array_frase_a_mostrar = frase_a_mostrar.split("");
+            for (i in frase_a_adivinar){
+                if( frase_a_adivinar[i].toUpperCase() == letra ){
+                    array_frase_a_mostrar[i] = frase_a_adivinar[i];                    
+                    desvelada = true;
+                }
+            }
+            if(desvelada){
+                alert("letra adivinada")
+            }else{
+                alert("la letra no esta en la frase")
+            }
+           
+                if(reg_exp_vocales.test(letra)){
+                    puntuacionTotal = puntuacionTotal -10;
+                    mostrar_puntuacion();
+                }else{
+                    puntuacionTotal = puntuacionTotal -5;
+                    mostrar_puntuacion();
+                }
+            
+            frase_a_mostrar = array_frase_a_mostrar.join("");//array a string
+            $("#frase_a_mostrar").html(frase_a_mostrar);
+        });
+
+        function mostrar_victoria(){
+            $("#victoria").html("Enhorabuena: " + puntuacionTotal + " puntos");
+            $("#victoria").show();
+            $("#victoria").animate({
+                fontSize : "50px",
+                color: "white" 
+            },1500
+            );
+        }
+
+        function mostrar_puntuacion(){
+            $("#puntos").html( puntuacionTotal );
+           
+        }
+
+        $("#victoria").hide();
+        preparar_frase();
+    
+    </script>
+
+</body>
+</html>
+
+
+

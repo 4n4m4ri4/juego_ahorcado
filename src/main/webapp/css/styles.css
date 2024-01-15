@@ -1,0 +1,71 @@
+@charset "ISO-8859-1";
+
+
+.titulo {
+font-family: 'mifuente';
+text-align: center;
+font-size:50px;
+}
+.puntuacion{
+  font-family: 'mifuente'; 
+   font-size:30px;
+}
+.divPrimer{
+   text-align: center;
+}
+.middle{
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%,-50%);
+  }
+  .botones {
+  font-size: 18px;
+  background: #3498db;
+  color: black;
+  border: 0.25rem solid #3498db;
+  padding: 0.85em 0.75em;
+  margin: 1rem;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.botones:hover {
+  color: #3498db;
+}
+.botones::after {
+  content: "";
+  background: white;
+  position: absolute;
+  z-index: -1;
+  padding: 0.85em 0.75em;
+  display: block;
+}
+.botones::after {
+ transition: all 0.3s ease;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  transform: scale(0, 0) rotate(-180deg);
+}
+.botones:hover::after {
+  transform: scale(1, 1) rotate(0deg);
+   transition: all 0.3s ease-out;
+}
+.victoria{
+	   background: url("../foto/fuegos.gif")  ; 
+	   background-size: cover;
+	   background-repeat:no-repeat;
+        position: absolute;
+        width: 100%;
+        top:0px;
+        left:0px;
+        height: 100%;
+        padding: 10%;
+        text-align: center;
+        color: aliceblue;
+        
+      
+     
+}
